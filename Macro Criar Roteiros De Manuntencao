@@ -1,0 +1,91 @@
+Sub Teste()
+
+Dim Connection, SapGui, Appl, WshShell, proc
+On Error GoTo DESLOGADO
+Set session = GetObject("SAPGUI").GetScriptingEngine.Children(0).Children(0)
+GoTo LOGADO
+    
+DESLOGADO:
+    Set WshShell = CreateObject("WScript.Shell")
+    Set proc = WshShell.Exec("C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe")
+    Application.Wait Now + TimeValue("0:00:5")
+    Set SapGui = GetObject("SAPGUI")
+    Set Appl = SapGui.GetScriptingEngine
+    Set Connection = Appl.OpenConnection("01 [BRF] - SAP ECC Produção -->Logon Automático<---", True)
+    Set session = Connection.Children(0)
+LOGADO:
+    On Error GoTo -1
+    
+        Lastrow = Cells(100000, "A").End(xlUp).Row
+        session.findById("wnd[0]/tbar[0]/okcd").Text = "/NIA01"
+        session.findById("wnd[0]").sendVKey 0
+    On Error GoTo 0
+
+For X = 400 To Lastrow
+    Equipamento = Cells(X, "A").Value2
+    GrupoPlanejamento = Cells(X, "C").Value2
+    CentroTrabalho = Cells(X, "D").Value2
+    Texto = Cells(X, "E").Value2
+    session.findById("wnd[0]/usr/ctxtRC27E-EQUNR").Text = Equipamento
+    session.findById("wnd[0]").sendVKey 0
+    session.findById("wnd[0]/usr/txtPLKOD-KTEXT").Text = Texto
+    session.findById("wnd[0]/usr/ctxtRCR01-ARBPL").Text = CentroTrabalho
+    session.findById("wnd[0]/usr/ctxtPLKOD-VERWE").Text = "4"
+    session.findById("wnd[0]/usr/ctxtPLKOD-VAGRP").Text = GrupoPlanejamento
+    session.findById("wnd[0]/usr/ctxtPLKOD-STATU").Text = "4"
+    session.findById("wnd[0]/usr/ctxtPLKOD-ANLZU").Text = "1"
+    session.findById("wnd[0]/usr/ctxtPLKOD-STRAT").Text = "ZDIAS"
+    session.findById("wnd[0]/tbar[1]/btn[16]").press
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-VORNR[0,0]").Text = "0010"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-VORNR[0,1]").Text = "0020"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-VORNR[0,2]").Text = "0030"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-ARBPL[2,0]").Text = "PMHAIN01"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-ARBPL[2,1]").Text = "PMHAIN01"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-ARBPL[2,2]").Text = "PMHAIN01"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-WERKS[3,0]").Text = "310"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-WERKS[3,1]").Text = "310"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-WERKS[3,2]").Text = "310"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-STEUS[4,0]").Text = "PM01"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-STEUS[4,1]").Text = "PM01"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-STEUS[4,2]").Text = "PM01"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-LTXA1[5,0]").Text = "V_EL_RUIDOS DE ROLAMENTOS"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-LTXA1[5,1]").Text = "V_EL_AQUECIMENTO E VENTILAÇÃO"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-LTXA1[5,2]").Text = "V_EL_INTEGRIDADE GERAL"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-ARBEI[7,0]").Text = "0,1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-ARBEI[7,1]").Text = "0,1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-ARBEI[7,2]").Text = "0,1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-ARBEH[8,0]").Text = "H"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-ARBEH[8,1]").Text = "H"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-ARBEH[8,2]").Text = "H"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-ANZZL[9,0]").Text = "1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-ANZZL[9,1]").Text = "1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-ANZZL[9,2]").Text = "1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-DAUNO[10,0]").Text = "0,1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-DAUNO[10,1]").Text = "0,1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-DAUNO[10,2]").Text = "0,1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-DAUNE[11,0]").Text = "H"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-DAUNE[11,1]").Text = "H"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-DAUNE[11,2]").Text = "H"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-INDET[12,0]").Text = "2"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-INDET[12,1]").Text = "2"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-INDET[12,2]").Text = "2"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-PRZNT[13,0]").Text = "100"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-PRZNT[13,1]").Text = "100"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-PRZNT[13,2]").Text = "100"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-AUFKT[15,0]").Text = "1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-AUFKT[15,1]").Text = "1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/txtPLPOD-AUFKT[15,2]").Text = "1"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-LARNT[16,0]").Text = "MAN"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-LARNT[16,1]").Text = "MAN"
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3400/ctxtPLPOD-LARNT[16,2]").Text = "MAN"
+    session.findById("wnd[0]/usr/btnTEXT_DRUCKTASTE_WP").press
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3600/chkRIHSTRAT-MARK05[7,0]").Selected = True
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3600/chkRIHSTRAT-MARK05[7,1]").Selected = True
+    session.findById("wnd[0]/usr/tblSAPLCPDITCTRL_3600/chkRIHSTRAT-MARK05[7,2]").Selected = True
+    session.findById("wnd[0]/tbar[0]/btn[11]").press
+Next
+    
+End Sub
+
+
+
