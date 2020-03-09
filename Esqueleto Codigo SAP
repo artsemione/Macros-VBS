@@ -1,0 +1,29 @@
+Sub Teste()
+
+Dim Connection, SapGui, Appl, WshShell, proc
+On Error GoTo DESLOGADO
+Set session = GetObject("SAPGUI").GetScriptingEngine.Children(0).Children(0)
+GoTo LOGADO
+    
+DESLOGADO:
+    Set WshShell = CreateObject("WScript.Shell")
+    Set proc = WshShell.Exec("C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe")
+    Application.Wait Now + TimeValue("0:00:5")
+    Set SapGui = GetObject("SAPGUI")
+    Set Appl = SapGui.GetScriptingEngine
+    Set Connection = Appl.OpenConnection("01 [BRF] - SAP ECC Produção -->Logon Automático<---", True)
+    Set session = Connection.Children(0)
+LOGADO:
+    On Error GoTo 0
+    
+    ' Digite o Código aqui ---------
+       
+     For i = 0 To 5000
+        
+     Next
+     
+    ' Fim do Código ----------------
+    
+End Sub
+
+
